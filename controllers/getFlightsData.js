@@ -10,11 +10,9 @@ exports.getFlightsAPI1 = async (url, res) => {
                 password: 'supersecret'
             }
         })
-        return session
+        return session.data.flights
     } catch (error) {
-        res.status(400).json({
-            status: 'failed',
-            message: 'An error has happened getting all flights, please try again'
-        })
+        console.error('Unable to get flights, please try again');
+        return []
     }
 }
