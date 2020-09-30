@@ -3,12 +3,17 @@ const chai = require('chai');
 const { assert } = require('chai');
 const flightController = require('../controllers/index');
 const flightsAPI = require('../controllers/getFlightsData');
+const fixtures = require('./fixtures');
 
 describe('controllers/index.js', function () {
 
-    it('should remove duplicated flights', async function () {
-        const source1 = await flightsAPI.getFlights(process.env.LINK_ONE);
-        const source2 = await flightsAPI.getFlights(process.env.LINK_TWO);
-        assert.isArray(await flightController.mergeFlightLists(source1, source2), 'Create final flights list correctly');
+    it('isSameSlice when different slices returns false', async function () {
+        assert.isFalse(flightController.isSameSlicesArray(fixtures.slice1, fixtures.slice2), 'slices should be different')
+    })
+    it('isSameFlight when different flights returns false', async function () {
+        assert.isFalse(flightController.isSameFlight(fixtures.flight1, fixtures.flight2), 'flights should be different');
     });
+    it('mergeFlightsList when flights lists have duplicates returns a list without duplicates', async function () {
+        assert.equal(JSON.stringify(await flightController.mergeFlightLists(fixtures.source1, fixtures.source2)), JSON.stringify(fixtures.result), 'final result is not deleting duplicates');
+    })
 });

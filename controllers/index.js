@@ -1,11 +1,15 @@
 const flightsAPI = require('./getFlightsData');
 const { json } = require('express');
+const fixtures = require('../test/fixtures');
 
-const isSameSlice = (slice1, slice2) => {
-    for (let i = 0; i < slice1.length; i++) {
+exports.isSameSlicesArray = (slices1, slices2) => {
+    if (slices1.length != slices2.length) {
+        return false;
+    }
+    for (let i = 0; i < slices1.length; i++) {
         let isFound = false;
-        for (let j = 0; j < slice2.length; j++) {
-            if (slice1.flight_number == slice2.flight_number && slice1.departure_date_time_utc == slice2.departure_date_time_utc) {
+        for (let j = 0; j < slices2.length; j++) {
+            if (slices1[i].flight_number == slices2[j].flight_number && slices1[i].departure_date_time_utc == slices2[j].departure_date_time_utc) {
                 isFound = true;
                 break
             }
@@ -17,14 +21,11 @@ const isSameSlice = (slice1, slice2) => {
     return true
 };
 
-const isSameFlight = (flight1, flight2) => {
-    if (flight1.slices.length != flight2.slices.length) {
-        return false;
-    }
+exports.isSameFlight = (flight1, flight2) => {
     if (flight1.price != flight2.price) {
         return false;
     }
-    if (isSameSlice(flight1.slices, flight2.slices) == false) {
+    if (this.isSameSlicesArray(flight1.slices, flight2.slices) == false) {
         return false
     }
     return true
@@ -35,7 +36,7 @@ exports.mergeFlightLists = async (source1, source2) => {
     for (let i = 0; i < source1.length; i++) {
         let isFound = false;
         for (let j = 0; j < source2.length; j++) {
-            if (isSameFlight(source1[i], source2[j]) == true) {
+            if (this.isSameFlight(source1[i], source2[j]) == true) {
                 isFound = true;
                 break
             }
@@ -51,10 +52,10 @@ exports.response = async (req, res, next) => {
     try {
         const source1 = await flightsAPI.getFlights(process.env.LINK_ONE);
         const source2 = await flightsAPI.getFlights(process.env.LINK_TWO);
-        const flights = await this.mergeFlightLists(source1, source2);
+        const flights = await this.mergeFlightLists(source1.flights, source2.flights);
         res.status(200).json({
             status: 'success',
-            data: JSON.stringify(flights)
+            data: JSON.stringify(flights, undefined, 2)
         })
     } catch (err) {
         console.log(err.message);

@@ -11,7 +11,7 @@ exports.getFlights = async (url) => {
             },
             timeout: 1000
         })
-        return session.data.flights
+        return session.data
     } catch (error) {
         console.log(error);
         console.log(error.response.status);
