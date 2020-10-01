@@ -1,18 +1,20 @@
 const axios = require('axios');
 
-exports.getFlightsAPI1 = async (url, res) => {
+exports.getFlights = async (url) => {
     try {
         const session = await axios({
             method: "GET",
             url: url,
             auth: {
-                username: 'ct_interviewee',
-                password: 'supersecret'
-            }
+                username: process.env.USERNAME_API,
+                password: process.env.PASSWORD_API
+            },
+            timeout: 1000
         })
-        return session.data.flights
+        return session.data
     } catch (error) {
-        console.error('Unable to get flights, please try again');
+        console.log(error);
+        console.log(error.response.status);
         return []
     }
 }
