@@ -1,6 +1,6 @@
 # Flights Application
 
-Project application that is able to request all flight data from two APIs (<https://discovery-stub.comtravo.com/source1>) and (<https://discovery-stub.comtravo.com/source2>) and then it will send back to customer a response in JSON format of all flights but deleting duplicates in the process.
+Project application that is able to request all flights data from two APIs sending back to customer a response in JSON format of all flights but deleting duplicates in the process.
 
 ### Setup 
 * Open a terminal in the root folder of this project and run `npm install` in order to install all dependencies of the package.json.
