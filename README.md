@@ -24,7 +24,7 @@ PASSWORD_API=supersecret
 
 - [Axios](https://github.com/axios/axios) - Used to fetch flights from APIs
 - [Dotenv](https://www.npmjs.com/package/dotenv) - Used to storage environment variables in a .env file 
-- [Express](https://expressjs.com/) - Used for structure of project
+- [Express](https://expressjs.com/) - Used as web framework to serve the flights endpoint
 - [Eslint](https://eslint.org) - Used as a tool to improve code and avoid code bugs
 - [Prettier](https://prettier.io) - Used as a tool to improve code and avoid code bugs
 - [Mocha](https://mochajs.org) - Used for testing purposes
